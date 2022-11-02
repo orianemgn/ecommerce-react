@@ -1,5 +1,7 @@
 import { CategoriesItem } from "../components/category-item/index" ;
 import {CategoriesList} from "../components/categories-list/index";
+import { useEffect } from "react";
+import axios from "axios";
 
 const data = [
     {
@@ -29,14 +31,28 @@ const data = [
     },
   ];
 
+
 const Categories = () => {
+
+    const urlAPI =  `https://api.escuelajs.co/api/v1/categories`; 
+
+
+    useEffect(() => {
+        axios
+        .get(urlAPI)
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error, "error"));
+
+    }, []); 
+  
+
     return (
         <div>
             <CategoriesList  data={data}/>
             {/*<CategoriesItem />*/}
         </div>
         
-    )
-}
+    );
+};
 
 export default Categories; 
