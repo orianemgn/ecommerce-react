@@ -1,6 +1,6 @@
 import { CategoriesItem } from "../components/category-item/index" ;
 import {CategoriesList} from "../components/categories-list/index";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const data = [
@@ -34,21 +34,39 @@ const data = [
 
 const Categories = () => {
 
+    const [categoriesResp, setCategoriesResp] = useState([]);
+    const [errorResp, setErrorResp] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
     const urlAPI =  `https://api.escuelajs.co/api/v1/categories`; 
 
 
     useEffect(() => {
         axios
         .get(urlAPI)
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error, "error"));
+        .then((response) => setCategoriesResp(response))
+        .catch((error) => setErrorResp(error, "error"))
+        .finally(()=> setIsLoading(false));
 
     }, []); 
+
+    console.log("Categorie Resp: ",categoriesResp);
+    console.log("isLoading: ",isLoading)
+
+    if (isLoading){
+
+        return <h2>request is still in process, loading...</h2>
+    }
+
+    if (errorResp) {
+        console.log("error: ", errorResp);
+        return <h2>an error has occurred, please contact the support</h2>;
+      }
   
 
     return (
         <div>
-            <CategoriesList  data={data}/>
+            <CategoriesList  data={categoriesResp.data}/>
             {/*<CategoriesItem />*/}
         </div>
         
