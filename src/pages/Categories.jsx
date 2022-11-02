@@ -1,14 +1,11 @@
+import { CategoriesItem } from "../components/category-item/index" ;
+import {CategoriesList} from "../components/categories-list/index";
+
 const Categories = () => {
     return (
         <div>
-            <ul>
-                <li>
-                    <b>file name</b> Categories.jsx
-                </li>
-                <li>
-                    <b>component name</b> Categories
-                </li>
-            </ul>
+            <CategoriesList />
+            <CategoriesItem />
         </div>
         
     )
