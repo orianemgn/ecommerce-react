@@ -1,5 +1,11 @@
-export const CategoriesItem = () => {
+export const CategoryItem = (props) => {
+
+    const {name, image} = props
+    
     return (
-        <div>Categories Item Here</div>
+        <div>
+            <h3>{name}</h3>
+            <img src={image} alt={name}/>
+        </div>
     )
 }

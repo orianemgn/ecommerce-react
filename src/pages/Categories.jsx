@@ -1,7 +1,8 @@
-import { CategoriesItem } from "../components/category-item/index" ;
+import { CategoryItem } from "../components/category-item/index" ;
 import {CategoriesList} from "../components/categories-list/index";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {useFetch} from "../components/hooks/useFetch";
 
 const data = [
     {
@@ -31,27 +32,12 @@ const data = [
     },
   ];
 
+  const urlAPI =  `https://api.escuelajs.co/api/v1/categories`; 
 
 const Categories = () => {
 
-    const [categoriesResp, setCategoriesResp] = useState([]);
-    const [errorResp, setErrorResp] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [categoriesResp, errorResp, isLoading] = useFetch(urlAPI)
 
-    const urlAPI =  `https://api.escuelajs.co/api/v1/categories`; 
-
-
-    useEffect(() => {
-        axios
-        .get(urlAPI)
-        .then((response) => setCategoriesResp(response))
-        .catch((error) => setErrorResp(error, "error"))
-        .finally(()=> setIsLoading(false));
-
-    }, []); 
-
-    console.log("Categorie Resp: ",categoriesResp);
-    console.log("isLoading: ",isLoading)
 
     if (isLoading){
 
@@ -66,8 +52,14 @@ const Categories = () => {
 
     return (
         <div>
-            <CategoriesList  data={categoriesResp.data}/>
-            {/*<CategoriesItem />*/}
+            <CategoriesList>
+              {categoriesResp.data.map((element, index) => {
+                const {id, name, image, url} = element; 
+                return (
+                  <CategoryItem key={id || index} name={name} image={image}/>
+                )
+              })}
+            </CategoriesList>
         </div>
         
     );
